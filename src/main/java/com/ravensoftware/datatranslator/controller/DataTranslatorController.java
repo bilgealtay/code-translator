@@ -22,7 +22,7 @@ public class DataTranslatorController {
         this.dataTranslatorService = dataTranslatorService;
     }
 
-    @PostMapping(path = "read-line")
+    @GetMapping(path = "read-line")
     public ResponseEntity readRow(@RequestBody @NotNull @Valid FileRequest fileRequest) {
         String result = dataTranslatorService.readLine(fileRequest);
         return ResponseEntity.ok(result);

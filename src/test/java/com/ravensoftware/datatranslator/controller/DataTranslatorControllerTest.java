@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +40,7 @@ public class DataTranslatorControllerTest {
 
         FileRequest fileRequest = new FileRequest();
 
-        mockMvc.perform(post("/read-line")
+        mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -51,7 +52,7 @@ public class DataTranslatorControllerTest {
 
         FileRequest fileRequest = new FileRequest(null, "a.txt", "b.txt", "c.txt");
 
-        mockMvc.perform(post("/read-line")
+        mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -63,7 +64,7 @@ public class DataTranslatorControllerTest {
 
         FileRequest fileRequest = new FileRequest("a.txt", null, "b.txt", "c.txt");
 
-        mockMvc.perform(post("/read-line")
+        mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -75,7 +76,7 @@ public class DataTranslatorControllerTest {
 
         FileRequest fileRequest = new FileRequest("b.txt", "a.txt", null, "c.txt");
 
-        mockMvc.perform(post("/read-line")
+        mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -87,7 +88,7 @@ public class DataTranslatorControllerTest {
 
         FileRequest fileRequest = new FileRequest("a.txt", "b.txt", "c.txt", null);
 
-        mockMvc.perform(post("/read-line")
+        mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -102,7 +103,7 @@ public class DataTranslatorControllerTest {
         when( dataTranslatorService.readLine(fileRequest) )
                 .thenReturn(MessageConstants.DONE);
 
-        MvcResult result = mockMvc.perform(post("/read-line")
+        MvcResult result = mockMvc.perform(get("/read-line")
                 .content(mapper.writeValueAsString(fileRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
